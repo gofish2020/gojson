@@ -2,6 +2,9 @@
 a Go package to interact with arbitrary JSON
 
 
+1. Construct json object by API;
+2. Decode json string, then Get the target value;
+3. Function is simple and easy;
 ```go
 package main
 
@@ -14,6 +17,7 @@ import (
 
 func main() {
 
+    //construct json
 	var js gojson.Json
 	js.Set("ints").SetAny(100)                           //整数
 	js.Set("strs").SetAny("T")                           //字符串
@@ -28,15 +32,23 @@ func main() {
 	for i := 0; i < js.Get("array").ArrayLen(); i++ {
 		fmt.Println(js.Get("array").GetIndex(i).String())
 	}
+    //load json string  and set loadstr
 	js.Set("loadstr").LoadString(`{"nash":111,"ss":1.2,"bb":"23"}`) //用字符串设定loadstr的值
 	fmt.Println("///////////////////////")
+
+    //one json object set other json object
 	var newJs gojson.Json
 	newJs.SetAny(js.Interface()) //用json对象设置值
 
 	var newJs1 gojson.Json
 	newJs1.Set("copyJs").SetAny(js.Interface())
+
+    // json object to json string
 	jsStr1, err1 := newJs1.Encode()
 	fmt.Println("------>>>", string(jsStr1), err1)
+
+
+    // get key's different type value
 	fmt.Println("将js对象转化json字符串///////////////////////")
 	jsStr, err := js.Encode()
 	fmt.Println("======>>>", string(jsStr), err)
